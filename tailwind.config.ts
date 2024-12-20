@@ -10,6 +10,9 @@ export default {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
+      transitionProperty: {
+        'clear-button': 'right, color, background, opacity',
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
