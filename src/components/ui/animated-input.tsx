@@ -12,12 +12,14 @@ import { Input } from './input'
 type AnimatedInputProps = ComponentProps<typeof Input> & {
   placeholders?: string[]
   isClearable?: boolean
+  reset: () => void
 }
 
 export function AnimatedInput({
   className,
   placeholders,
   isClearable = true,
+  reset,
   ...props
 }: AnimatedInputProps) {
   const { pending: isPending } = useFormStatus()
@@ -41,12 +43,15 @@ export function AnimatedInput({
     setValue(event.target.value)
   }
 
-  const handleClear = () => setValue('')
+  const handleClear = () => {
+    reset()
+    setValue('')
+  }
 
   return (
     <div
       className={cn(
-        `relative mx-auto flex h-11 w-full max-w-screen-sm items-center gap-2 rounded-md bg-background
+        `relative mx-auto flex min-h-11 w-full max-w-screen-sm items-center gap-2 rounded-md bg-background
         sm:h-12`,
         className
       )}
@@ -83,7 +88,7 @@ export function AnimatedInput({
             exit={{ opacity: 0, x: -10 }}
             initial={{ opacity: 0, x: 10 }}
             transition={{ duration: 0.35 }}
-            type="button"
+            type="reset"
             className="absolute right-1 top-1.5 flex size-8 items-center justify-center rounded-md ring-offset-background
               transition-clear-button focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
               focus-visible:ring-offset-2 sm:top-2"
