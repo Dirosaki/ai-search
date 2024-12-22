@@ -1,10 +1,11 @@
 'use client'
 
-import { CornerDownLeft, Inbox, Loader2 } from 'lucide-react'
+import { CornerDownLeft, Filter, Inbox, Loader2 } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useActionState, useEffect, useState } from 'react'
 
 import { createTaskAction } from '@/actions/create-task-action'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useStore } from '@/store'
 
@@ -90,6 +91,24 @@ export function TaskForm() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {!!tasks.length && (
+          <Button
+            className="absolute bottom-4 right-4 rounded-full"
+            size="icon"
+            type="button"
+            asChild
+          >
+            <motion.button
+              animate={{ y: 0, x: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 12, x: 12, opacity: 0, scale: 0.5 }}
+              initial={{ y: 12, x: 12, opacity: 0, scale: 0.5 }}
+              transition={{ duration: 0.25 }}
+            >
+              <Filter />
+            </motion.button>
+          </Button>
+        )}
       </div>
     </div>
   )
