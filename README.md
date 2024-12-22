@@ -47,7 +47,7 @@ Inicie o servidor
 
 ```
 OPENAI_API_KEY=
-NEXT_PUBLIC_BASE_URL=
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
 
 ---
