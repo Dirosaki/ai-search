@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Teste Front-End - Página de Busca com Inteligência Artificial
 
-## Getting Started
+### Screenshots
 
-First, run the development server:
+| Home                                         | Busca com IA                                 | Lista de Tarefas                             |
+| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
+| ![Screenshot](https://imgur.com/FlnxHSb.png) | ![Screenshot](https://imgur.com/of53urG.png) | ![Screenshot](https://imgur.com/YRc4wgf.png) |
+
+---
+
+### Demonstração
+
+Visualize a aplicação:
+[https://challenge-ai-search.vercel.app/](https://challenge-ai-search.vercel.app/)
+
+---
+
+### Rodando localmente
+
+Clone o projeto
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/Dirosaki/ai-search.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Entre no diretório do projeto
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+  cd ai-search
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Instale as dependências
 
-## Learn More
+```bash
+  npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+Inicie o servidor
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+  npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+### Variáveis de ambiente
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+OPENAI_API_KEY=
+NEXT_PUBLIC_BASE_URL=
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+### Tecnologias e serviços utilizados
+
+**Princípais:** `ReactJS`, `NextJS`, `Typescript`, `Zustand`, `Zod`, `TailwindCSS`, `ShadCn`, `Motion`, `Vercel`, `AI SDK` e `Axios`.
+
+**Outras:** `Eslint`, `Prettier`, `Husky` e `Lint-Staged`.
+
+<details>
+<summary>Por que as escolhi?</summary>
+
+- `Zustand`: Ele é bem leve e bem performático, nessa aplicação lidei com poucos estados, utilizei ele mais para gerenciar as tarefas do usuário e os modais.
+
+- `Motion`: Queria animar algumas coisas, então acabei utilizando essa biblioteca muito famosa, anteriormente conhecida como **Framer Motion**.
+
+- `tailwindCSS`: Quando se fala de produtividade acho que esta biblioteca se sobressai muito em relação ao `styled-components`, apesar de ter mais experiência com styled-components, estou optando por tailwindCSS em todos os projetos novos.
+
+- `ShadCn`: Para economizar tempo com designer, criei um wireframe e o segui com essa biblioteca de componentes ui.
+
+- `react-router-dom`: Quando se fala de roteamento definitivamente essa é a biblioteca mais utilizada e com maior comunidade, além de me sentir totalmente confortável com ela.
+
+</details>
+
+---
+
+### Referências
+
+- [ChatGPT](https://chat.openai.com/) - Utilizei o ChatGPT para me auxiliar na criação do prompt para as sugestões da busca, para pegar a **OPEN_API_KEY** e resolver um problema com as tokens, como não tinha saldo e já tinha acabado os 5$ que as contas gratuitas possuem, tive que colocar mais 5$ para conseguir resolver o problema.
+- [AI SDK](https://sdk.vercel.ai/docs) - Como foi a primeira vez que utilizei algo com IA, utilizei a documentação para entender mais sobre a AI SDK e seus Providers e suas funções.
+
+---
+
+### Observações
+
+- Gostei bastante de trabalhar com IA e a AI SDK da Vercel.
+- Sobre o CRUD, acabei não seguindo conforme o requisitado.
+- Por conta do fim de ano, não tive tempo de implementar coisas que gostaria, como:
+  > "Testes", "Docker Compose", "React Query", "Prisma com Postgres", "Validações em caso de erro", "Avisos de erro na API", "Code Splitting (Tenho um post apenas sobre isso em minhas redes)".
