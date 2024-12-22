@@ -2,86 +2,69 @@
 
 import { Loader2, Search, X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
-import { ChangeEvent, ComponentProps, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useFormStatus } from 'react-dom'
 
-import { cn } from '@/utils/cn'
+import { Input } from '@/components/ui/input'
+import { useTextAnimation } from '@/hooks/use-text-animation'
 
-import { Input } from './input'
-
-type AnimatedInputProps = ComponentProps<typeof Input> & {
-  placeholders?: string[]
-  isClearable?: boolean
-  reset: () => void
+type AnimatedSearchInputProps = {
+  onReset: () => void
 }
 
-export function AnimatedInput({
-  className,
-  placeholders,
-  isClearable = true,
-  reset,
-  ...props
-}: AnimatedInputProps) {
+const placeholders = [
+  'Pesquise por algo incrível...',
+  'Busque e descubra...',
+  'O que você está procurando hoje?',
+  'O que deseja encontrar?',
+  'Procure o que quiser!',
+  'Qual é sua próxima descoberta?',
+  'Está procurando algo especial?',
+  'Tudo começa com uma busca...',
+]
+
+export function AnimatedSearchInput({ onReset }: AnimatedSearchInputProps) {
   const { pending: isPending } = useFormStatus()
-
-  const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const [value, setValue] = useState('')
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout
-
-    if (placeholders?.length) {
-      interval = setInterval(() => {
-        setPlaceholderIndex((prevIndex) => (prevIndex + 1) % placeholders.length)
-      }, 3000)
-    }
-
-    return () => clearInterval(interval)
-  }, [placeholders])
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value)
-  }
+  const animatedPlaceholder = useTextAnimation({ placeholders })
 
   const handleClear = () => {
-    reset()
+    onReset()
     setValue('')
   }
 
   return (
     <div
-      className={cn(
-        `relative mx-auto flex min-h-11 w-full max-w-screen-sm items-center gap-2 rounded-md bg-background
-        sm:h-12`,
-        className
-      )}
+      className="relative mx-auto mt-[-22px] flex min-h-11 w-full max-w-screen-sm items-center gap-2 rounded-md
+        bg-background sm:-mt-6 sm:h-12"
     >
       <Search className="absolute left-3 top-3.5 sm:top-4" size={16} absoluteStrokeWidth />
+
       <Input
+        aria-label="Campo de pesquisa"
+        className="size-full pb-px pl-9 pr-10 text-sm placeholder:text-transparent sm:text-base"
         disabled={isPending}
+        name="search"
+        placeholder="O que deseja encontrar?"
         value={value}
-        className={cn('size-full pb-px pl-9 pr-10 text-sm sm:text-base', {
-          'placeholder:text-transparent': placeholders?.length,
-        })}
-        onChange={handleChange}
-        {...props}
+        onChange={(event) => setValue(event.target.value)}
       />
 
       <AnimatePresence>
-        {!!placeholders?.length && value.length === 0 && (
+        {!value.length && (
           <motion.span
-            key={placeholderIndex}
+            key={animatedPlaceholder}
             animate={{ opacity: 1, y: 0 }}
             className="pointer-events-none absolute left-9 text-nowrap text-sm text-muted-foreground sm:text-base"
             exit={{ opacity: 0, y: -10 }}
             initial={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.35 }}
+            transition={{ duration: 0.25 }}
           >
-            {placeholders[placeholderIndex]}
+            {animatedPlaceholder}
           </motion.span>
         )}
 
-        {isClearable && value.length > 0 && !isPending && (
+        {!!value.length && !isPending && (
           <motion.button
             animate={{ opacity: 1, x: 0 }}
             aria-label="Limpar campo"

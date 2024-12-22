@@ -9,10 +9,11 @@ type SearchResponse = {
   result: string[]
 }
 
-export const searchAction = async (
-  _actionState: ActionState | string[] | null,
-  formData: FormData | null
-) => {
+type State = ActionState<string[]> | null
+
+type FnSearchAction = (state: State, data: FormData | null) => Promise<State>
+
+export const searchAction: FnSearchAction = async (_actionState, formData) => {
   try {
     if (formData === null) return null
 
@@ -25,8 +26,15 @@ export const searchAction = async (
       }
     )
 
-    return data.result
+    return { data: data.result, message: '', fieldErrors: {}, formKey: Date.now().toString() }
   } catch (error) {
-    return fromErrorToActionState(error)
+    const { message, fieldErrors } = fromErrorToActionState(error)
+
+    return {
+      data: null,
+      message,
+      fieldErrors,
+      formKey: Date.now().toString(),
+    }
   }
 }

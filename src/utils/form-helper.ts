@@ -1,16 +1,16 @@
 import { ZodError } from 'zod'
 
-export type ActionState = {
+type ErrorState = {
   message: string
   fieldErrors: Record<string, string[] | undefined>
 }
 
-export const EMPTY_STATE: ActionState = {
-  message: '',
-  fieldErrors: {},
+export type ActionState<T> = ErrorState & {
+  formKey: string
+  data: T | null
 }
 
-export const fromErrorToActionState = (error: unknown): ActionState => {
+export const fromErrorToActionState = (error: unknown): ErrorState => {
   if (error instanceof ZodError) {
     return {
       message: 'Por favor, corrija os erros do formulário.',
@@ -29,7 +29,7 @@ export const fromErrorToActionState = (error: unknown): ActionState => {
   }
 }
 
-export const toActionState = (message: string): ActionState => ({
+export const toActionState = (message: string): ErrorState => ({
   message,
   fieldErrors: {},
 })
