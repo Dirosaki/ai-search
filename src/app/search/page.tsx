@@ -1,7 +1,7 @@
 import { ArrowLeft, Brain, Github, Instagram, Linkedin } from 'lucide-react'
 import Link from 'next/link'
 
-import { SearchForm } from '@/app/search/_components/search-form'
+import { SearchForm } from '@/app/search/components/search-form'
 import { Button } from '@/components/ui/button'
 
 export default function Search() {

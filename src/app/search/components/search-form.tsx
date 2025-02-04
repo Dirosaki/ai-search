@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { startTransition, useActionState } from 'react'
 
 import { searchAction } from '@/actions/search-action'
-import { AnimatedSearchInput } from '@/app/search/_components/animated-search-input'
+import { AnimatedSearchInput } from '@/app/search/components/animated-search-input'
 
 import { SuggestionList } from './suggestion-list'
 

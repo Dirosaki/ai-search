@@ -1,13 +1,10 @@
 'use server'
 
-import axios from 'axios'
+import { openai } from '@ai-sdk/openai'
+import { generateText } from 'ai'
 
 import { searchSchema } from '@/schemas/search-schema'
 import { ActionState, fromErrorToActionState } from '@/utils/form-helper'
-
-type SearchResponse = {
-  result: string[]
-}
 
 type State = ActionState<string[]> | null
 
@@ -19,14 +16,20 @@ export const searchAction: FnSearchAction = async (_actionState, formData) => {
 
     const { search } = searchSchema.parse(Object.fromEntries(formData))
 
-    const { data } = await axios.post<SearchResponse>(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/suggestions`,
-      {
-        search,
-      }
-    )
+    const { text } = await generateText({
+      model: openai('gpt-4o-mini'),
+      system: 'Gere 5 sugestões populares e diretas, sem introduções ou conclusões.',
+      prompt: `Liste 5 sugestões do termo "${search}"`,
+      maxTokens: 100,
+      temperature: 0,
+    })
 
-    return { data: data.result, message: '', fieldErrors: {}, formKey: Date.now().toString() }
+    const suggestions = text
+      .split('\n')
+      .filter(Boolean)
+      .map((line) => line.replace(/^\d+\.\s*/, '').trim())
+
+    return { data: suggestions, message: '', fieldErrors: {}, formKey: Date.now().toString() }
   } catch (error) {
     const { message, fieldErrors } = fromErrorToActionState(error)
 
